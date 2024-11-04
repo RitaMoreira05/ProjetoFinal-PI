@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loja Online Veterinária Pata Feliz</title>
+</head>
+<body>
+    <h1>Produtos</h1>
+    <ul>
+        {% for produto in produtos %}
+            <li>
+                <h2>{{ produto.nome }}</h2>
+                <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" style="max-width: 200px;"/>
+                <p>{{ produto.descricao }}</p>
+                <p>Preço: {{ produto.preco }}</p>
+                <p>Stock: {{ produto.stock }}</p>
+                <p>Validade: {{ produto.validade }}</p>
+                <small>Categoria: {{ produto.categoria.nome }} </small>      
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
