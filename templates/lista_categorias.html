@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Categorias{% endblock %}
+
+{% block content %}
+    <h1>Categorias</h1>
+
+    {% for categoria in categorias %}
+
+        <h6>{{ categoria.nome }}</h6>
+        <p>{{ categoria.slug }}</p>
+        <a href="{% url 'ver_categoria' categoria.id %}">Ver</a>
+        <a href="{% url 'editar_categoria' categoria.id %}">Editar</a>
+        <a href="{% url 'apagar_categoria' categoria.id %}">Apagar</a>
+
+    {% endfor %}
+
+{% endblock %}

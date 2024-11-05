@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar - {{categoria.nome}}{% endblock %}
+
+{% block content %}
+<h1>Editar categoria</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar Alterações</button>
+</form>
+<br>
+{% endblock %}

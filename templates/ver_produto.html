@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}{{produto.nome}}{% endblock %}
+
+{% block content %}
+    <h1>{{ produto.nome }}</h1>
+    <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" style="max-width: 200px;" />
+    <p><strong>Descrição:</strong></p>
+    <p>{{produto.descricao}}</p>
+    <p>Preço: {{produto.preco}} €</p>
+    <small>Categoria: {{ produto.categoria.nome }} | Validade: {{ produto.validade }} | Stock: {{produto.stock}}</small>
+    <br>
+    <a href="{% url 'lista_produtos' %}">Voltar</a>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}{{categoria.nome}}{% endblock %}
+
+{% block content %}
+    <h1>{{ categoria.nome }}</h1>
+    <p>{{ categoria.slug }}</p>
+    <br>
+    <a href="{% url 'lista_categorias' %}">Voltar</a>
+{% endblock %}
