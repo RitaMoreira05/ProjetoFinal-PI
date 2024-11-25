@@ -1,10 +1,34 @@
 {% extends 'base.html' %}
 
-{% block title %}{{categoria.nome}}{% endblock %}
+{% block title %}{{ categoria.nome }}{% endblock %}
 
 {% block content %}
     <h1>{{ categoria.nome }}</h1>
     <p>{{ categoria.slug }}</p>
+    <br>
+    
+        {% for produto in produtos %}
+            <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" style="max-width: 200px;" />
+            <p><strong>Descrição:</strong></p>
+            <p>{{produto.descricao}}</p>
+            <p>Preço: {{produto.preco}} €</p>
+            <small>Categoria: {{ produto.categoria.nome }} | Validade: {{ produto.validade }} | Stock: {{produto.stock}}</small>
+            <a href="{% url 'ver_produto' produto.id %}?origem=categoria&categoria_id={{ categoria.id }}">Ver</a>
+
+            {% if user.is_staff %}
+            <a href="{% url 'editar_produto' produto.id %}">Editar</a>
+            <a href="{% url 'apagar_produto' produto.id %}">Apagar</a>
+            {% endif %}
+
+            <br>
+
+        {% empty %}
+
+            <li>Não há produtos nesta categoria.</li>
+            
+        {% endfor %}
+    </ul>
+
     <br>
     <a href="{% url 'lista_categorias' %}">Voltar</a>
 {% endblock %}

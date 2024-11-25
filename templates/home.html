@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Página Principal{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="custom-container position-relative text-center p-0 m-0">
+    <img src="/media/geral/1.png" class="custom-img img-fluid w-100 p-0 m-0">
+    <h1 class="position-absolute top-50 start-50 translate-middle text-white text-shadow">Bem-vindo, {{ user.username }}!</h1>
+    <small class="position-absolute top-50 start-50 translate-middle text-white mt-5 text-shadow">Pata Feliz, cuidar de quem te faz feliz!</small>
+</div>
+{% else %}
+<div class="custom-container position-relative text-center p-0 m-0">
+    <img src="/media/geral/1.png" class="custom-img img-fluid w-100 p-0 m-0">
+    <h1 class="position-absolute top-50 start-50 translate-middle text-white text-shadow">Bem-vindo!</h1>
+    <small class="position-absolute top-50 start-50 translate-middle text-white mt-5 text-shadow">Pata Feliz, cuidar de quem te faz feliz!</small>
+</div>
+{% endif %}
+
+<h3 class="p-3 text-center">Produtos em Destaque</h3>
+<div>
+    <!-- Conteúdo dos produtos em destaque -->
+</div>
+
+{% endblock %}

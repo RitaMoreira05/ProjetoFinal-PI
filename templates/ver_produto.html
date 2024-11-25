@@ -10,5 +10,12 @@
     <p>Preço: {{produto.preco}} €</p>
     <small>Categoria: {{ produto.categoria.nome }} | Validade: {{ produto.validade }} | Stock: {{produto.stock}}</small>
     <br>
-    <a href="{% url 'lista_produtos' %}">Voltar</a>
+
+    {% if origem == 'categoria' and categoria_id %}
+        <a href="{% url 'ver_categoria' categoria_id %}">Voltar</a>
+    {% else %}
+        <a href="{% url 'lista_produtos' %}">Voltar</a>
+    {% endif %}
+
+
 {% endblock %}

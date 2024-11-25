@@ -3,23 +3,33 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-    <h1>Produtos</h1>
+    <div class="container products-section">
+        <div class="row text-center">
+            <h2 class="conteiner-xxl mb-4">Produtos</h2>
 
     {% for produto in produtos %}
-
-        <h2>{{ produto.nome }}</h2>
-        <small>Categoria: {{ produto.categoria.nome }}</small>
+        <div class="col-md-4 mb-4">
+        <div class="card p-3">
+        
         <br>
-        <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" style="max-width: 200px;" />
+        <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" class="card-img-top" width="5rem"/>
         <!-- Exibir a foto do produto -->
-        <p>{{ produto.descricao }}</p>
+        <h5>{{ produto.nome }}</h5>
         <p>Preço: {{ produto.preco }} €</p>
-        <small>Stock: {{ produto.stock }} | Validade: {{ produto.validade }}</small>
-        <a href="{% url 'ver_produto' produto.id %}">Ver</a>
-        <a href="{% url 'editar_produto' produto.id %}">Editar</a>
-        <a href="{% url 'apagar_produto' produto.id %}">Apagar</a>
+        <div class="container">
+        <a href="{% url 'ver_produto' produto.id %}?origem=produtos" class="btn btn-primary">Ver</a>
+
+        {% if user.is_staff %}
+        <a href="{% url 'editar_produto' produto.id %}" class="btn btn-warning">Editar</a>
+        <a href="{% url 'apagar_produto' produto.id %}" class="btn btn-danger">Apagar</a>
+        {% endif %}
+        </div>
+        </div>
+        </div>
 
     {% endfor %}
+    </div>
+    </div>
 
 </body>
 
