@@ -22,10 +22,10 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('produtos/', include('produtos.urls')),
+    path('', include('produtos.urls')),
     path('users/', include('users.urls')),
     
-    path('', TemplateView.as_view(template_name="home.html"), name="home"),
+    
 ]
 
 if settings.DEBUG:

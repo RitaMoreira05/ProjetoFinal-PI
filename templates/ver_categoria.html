@@ -13,11 +13,11 @@
             <p>{{produto.descricao}}</p>
             <p>Preço: {{produto.preco}} €</p>
             <small>Categoria: {{ produto.categoria.nome }} | Validade: {{ produto.validade }} | Stock: {{produto.stock}}</small>
-            <a href="{% url 'ver_produto' produto.id %}?origem=categoria&categoria_id={{ categoria.id }}">Ver</a>
+            <a href="{% url 'ver_produto' produto.slug %}?origem=categoria&categoria_slug={{ categoria.slug }}">Ver</a>
 
             {% if user.is_staff %}
-            <a href="{% url 'editar_produto' produto.id %}">Editar</a>
-            <a href="{% url 'apagar_produto' produto.id %}">Apagar</a>
+            <a href="{% url 'editar_produto' produto.slug %}">Editar</a>
+            <a href="{% url 'apagar_produto' produto.slug %}">Apagar</a>
             {% endif %}
 
             <br>

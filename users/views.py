@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from .forms import UtilizadorForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.decorators.csrf import csrf_protect
@@ -12,7 +12,7 @@ def register(request):
             user = form.save()
 
             login(request, user)
-            return redirect('base')
+            return redirect('home')
     else:
         form = UtilizadorForm()
     return render(request, 'registar.html', {'form': form})
@@ -21,10 +21,7 @@ class LoginUtilizador(LoginView):
     template_name = "login.html"
 
 class LogoutUtilizador(LogoutView):
-    next_page = "base"
-
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+    next_page = "home"
 
 def login_view(request):
     """

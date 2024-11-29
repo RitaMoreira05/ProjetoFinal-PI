@@ -52,7 +52,7 @@ class Produto(models.Model):
     foto = models.ImageField(upload_to='media/produtos/')
     validade = models.DateField()
     categoria = models.ForeignKey(Categoria, related_name='produtos', on_delete=models.CASCADE)
-    destaque = models.BooleanField(default=False)
+    destaque = models.BooleanField(default=True)
 
     def __str__(self):
         """

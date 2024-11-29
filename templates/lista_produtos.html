@@ -12,16 +12,16 @@
         <div class="card p-3">
         
         <br>
-        <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" class="card-img-top" width="5rem"/>
+        <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" class="card-img-top" wslugth="5rem"/>
         <!-- Exibir a foto do produto -->
         <h5>{{ produto.nome }}</h5>
         <p>Preço: {{ produto.preco }} €</p>
         <div class="container">
-        <a href="{% url 'ver_produto' produto.id %}?origem=produtos" class="btn btn-primary">Ver</a>
+        <a href="{% url 'ver_produto' produto.slug %}?origem=produtos" class="btn btn-primary">Ver</a>
 
         {% if user.is_staff %}
-        <a href="{% url 'editar_produto' produto.id %}" class="btn btn-warning">Editar</a>
-        <a href="{% url 'apagar_produto' produto.id %}" class="btn btn-danger">Apagar</a>
+        <a href="{% url 'editar_produto' produto.slug %}" class="btn btn-warning">Editar</a>
+        <a href="{% url 'apagar_produto' produto.slug %}" class="btn btn-danger">Apagar</a>
         {% endif %}
         </div>
         </div>

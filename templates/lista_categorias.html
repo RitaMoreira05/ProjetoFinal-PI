@@ -9,11 +9,11 @@
 
         <h6>{{ categoria.nome }}</h6>
         <p>{{ categoria.slug }}</p>
-        <a href="{% url 'ver_categoria' categoria.id %}">Ver</a>
+        <a href="{% url 'ver_categoria' categoria.slug %}">Ver</a>
 
         {% if user.is_staff %}
-        <a href="{% url 'editar_categoria' categoria.id %}">Editar</a>
-        <a href="{% url 'apagar_categoria' categoria.id %}">Apagar</a>
+        <a href="{% url 'editar_categoria' categoria.slug %}">Editar</a>
+        <a href="{% url 'apagar_categoria' categoria.slug %}">Apagar</a>
         {% endif %}
 
     {% endfor %}
