@@ -20,7 +20,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><img src="/media/geral/pata-feliz-logo.png" width="60rem"></a>
+      <a class="navbar-brand" href="{% url 'home' %}"><img src="/media/geral/pata-feliz-logo.png" width="60rem"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -40,31 +40,36 @@
           {% endif %}
 
           {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link active" href="{% url 'minha_conta' %}"><i class="bi bi-person-circle"></i> Minha Conta</a></li>
+          {% endif %}
+
+          {% if user.is_authenticated %}
           <li class="nav-item">
             <form method="post" action="{% url 'logout' %}">
               {% csrf_token %}
               <input type="hidden" name="next" value="{% url 'home' %}">
-              Logout 
               <button type="submit" class="btn">
                 <i class="bi bi-box-arrow-right"></i>
+                Logout 
               </button>
             </form>
           </li>
+
           {% else %}
-          <li class="nav-item"><a class="btn" href="{% url 'login' %}">Login <i class="bi bi-person-circle"></i></a></li>
+          <li class="nav-item"><a class="btn" href="{% url 'login' %}"><i class="bi bi-person-circle"></i> Login</a></li>
           {% endif %}
         </ul>
       </div>
     </div>
   </nav>
 
-  {% if messages %}
+  <!-- {% if messages %}
   <div>
     {% for message in messages %}
     <p class="bg-success">{{ message }}</p>
     {% endfor %}
   </div>
-  {% endif %}
+  {% endif %} -->
 
 
   <!-- Conteúdo Principal -->

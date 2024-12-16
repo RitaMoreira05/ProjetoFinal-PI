@@ -39,3 +39,4 @@ class CategoriasForm(forms.ModelForm):
         """
         model = Categoria
         fields = ['nome']
+	

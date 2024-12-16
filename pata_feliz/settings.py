@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os #importar a biblioteca os, que serve para manipular o sistema operativo
+from django.utils.translation import gettext_lazy as _ #traduz as mensagens de erro
+from django.contrib.messages import constants as messages #importa as constantes das mensagens de erro
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,5 +136,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.Utilizador'
 
+LOGIN_URL = '/users/login/'  # Substitua pelo caminho da sua view de login
+
 LOGIN_REDIRECT_URL = '/' 
 LOGOUT_REDIRECT_URL = '/'
+
+#Tradução das mesagens de erro
+FORM_ERROR_MESSAGES = {
+    'required': _("Este campo é obrigatório."),
+    'invalid': _("Valor inválido."),
+    'unique': _("Este valor já foi utilizado."),
+}
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'debug',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',  # "danger" é usado para erros 
+}
