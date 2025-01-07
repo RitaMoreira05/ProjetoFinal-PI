@@ -27,7 +27,6 @@
       </button>
       <div class="collapse navbar-collapse " id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
           <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
           {% if user.is_staff %}
           <li class="nav-item"><a class="nav-link active" href="{% url 'criar_produto' %}">Criar Produto</a></li>
@@ -38,6 +37,8 @@
           {% if user.is_staff %}
           <li class="nav-item"><a class="nav-link active" href="{% url 'criar_categoria' %}">Criar Categoria</a></li>
           {% endif %}
+
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'ver_carrinho' %}"><i class="bi bi-cart"></i> Carrinho</a>
 
           {% if user.is_authenticated %}
           <li class="nav-item"><a class="nav-link active" href="{% url 'minha_conta' %}"><i class="bi bi-person-circle"></i> Minha Conta</a></li>

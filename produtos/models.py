@@ -35,7 +35,7 @@ class Produto(models.Model):
 
     Atributos:
         nome (str): O nome do produto.
-        slug (str): Um identificador único para o produto, gerado automaticamente a partir do nome se não for fornecido.
+        slug (str): Um identificador único para o produto, gerado automaticamente a partir do nome.
         descricao (str): A descrição do produto.
         preco (decimal): O preço do produto, que deve ser um valor positivo.
         stock (int): A quantidade em stock do produto.
@@ -52,7 +52,7 @@ class Produto(models.Model):
     foto = models.ImageField(upload_to='media/produtos/')
     validade = models.DateField()
     categoria = models.ForeignKey(Categoria, related_name='produtos', on_delete=models.CASCADE)
-    destaque = models.BooleanField(default=True)
+    destaque = models.BooleanField(default=False)
 
     def __str__(self):
         """

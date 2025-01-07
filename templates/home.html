@@ -18,6 +18,7 @@
 </div>
 {% endif %}
 
+<!-- filepath: /c:/Users/ritam/Desktop/ProjetoFinal-PI/ProjetoFinal-PI/templates/home.html -->
 <h3 class="p-3 text-center">Produtos em Destaque</h3>
 
 <div>
@@ -33,6 +34,11 @@
                             <h5 class="card-title">{{ produto.nome }}</h5>
                             <p class="card-text">{{ produto.preco }} €</p>
                             <a href="{% url 'ver_produto' produto.slug %}" class="btn btn-primary">Ver</a>
+                            <form method="post" action="{% url 'adicionar_carrinho' produto.slug %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="scroll_position" id="scroll_position">
+                                <button type="submit" class="btn btn-success">Adicionar ao Carrinho</button>
+                            </form>
 
                             {% if user.is_staff %}
                             <a href="{% url 'editar_produto' produto.slug %}" class="btn btn-warning">Editar</a>
@@ -45,8 +51,30 @@
             {% else %}
                 <p>Nenhum produto em destaque encontrado.</p>
             {% endif %}
-        </div>        
+        </div>
     </div>
 </div>
+
+<script>
+    // Captura a posição de rolagem antes de enviar o formulário
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function() {
+            document.getElementById('scroll_position').value = window.scrollY;
+        });
+    });
+
+    // Restaura a posição de rolagem após a página ser recarregada
+    window.onload = function() {
+        if (sessionStorage.getItem('scroll_position')) {
+            window.scrollTo(0, sessionStorage.getItem('scroll_position'));
+            sessionStorage.removeItem('scroll_position');
+        }
+    };
+
+    // Salva a posição de rolagem no sessionStorage
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('scroll_position', window.scrollY);
+    });
+</script>
 
 {% endblock %}
