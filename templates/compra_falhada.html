@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Pagamento{% endblock %}
+
+{% block content %}
+
+<h1>Ops! Algo deu errado.</h1>
+    <p>A sua transação não foi concluída.</p>
+    <p>Por favor, verifique os dados e tente novamente.</p>
+    <ul>
+        {% if errors %}
+            <li>Erro: {{ errors }}</li>
+        {% else %}
+            <li>Erro desconhecido. Tente novamente mais tarde.</li>
+        {% endif %}
+    </ul>
+    <a href="{% url 'nova_compra' %}">Voltar à página de compra</a>
+
+{% endblock %}

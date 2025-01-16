@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Pagamento{% endblock %}
+
+{% block content %}
+    <h1>Obrigado pela sua compra!</h1>
+    <p>O seu pagamento foi realizado com sucesso.</p>
+    <p>Detalhes da compra:</p>
+    <ul>
+        <li>Valor: {{ compra.valor }}</li>
+        <li>Nome do Titular: {{ compra.nome_titular }}</li>
+        <li>Data: {{ compra.validade }}</li>
+    </ul>
+    <a href="{% url 'home' %}">Voltar ao início</a>
+{% endblock %}

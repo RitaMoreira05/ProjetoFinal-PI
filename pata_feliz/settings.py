@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'produtos',
     'users',
     'carrinho',
+    'pagamentos',
 ]
 
 MIDDLEWARE = [
@@ -156,3 +157,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',  # "danger" é usado para erros 
 }
+
+STRIPE_SECRET_KEY = 'sk_live_...SbRh' #sua_chave_secreta
+STRIPE_PUBLISHABLE_KEY = 'pk_live_51QWx9UBVSaGD1tF1px69vNKpOY4sax6fmDRhHGqePfPqQeWqMLWVquwEgBCokoBkznQRk26pJD7nn9auT8jLunNZ00xLOSFQh8' #sua_chave_publica
