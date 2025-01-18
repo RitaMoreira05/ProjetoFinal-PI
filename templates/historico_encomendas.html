@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Histórico de Encomendas{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Histórico de Encomendas</h1>
+    <ul class="list-group">
+        {% for encomenda in encomendas %}
+        <li class="list-group-item">
+            <a href="{% url 'detalhes_encomendas' encomenda.id %}">
+                Encomenda #{{ forloop.counter }}: {{ encomenda.data|date:"d/m/Y H:i:s" }} - {{ encomenda.valor }} €
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

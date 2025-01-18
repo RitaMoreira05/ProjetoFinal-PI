@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes da Encomenda{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-success text-center">Detalhes da Encomenda</h1>
+    <div class="card border-success mt-4">
+        <div class="card-header bg-success text-white">
+            Encomenda #{{ encomenda.id }}
+        </div>
+        <div class="card-body">
+            <p><strong>Data da Encomenda:</strong> {{ encomenda.data|date:"d/m/Y H:i:s" }}</p>
+            <p><strong>Valor Total:</strong> {{ encomenda.valor }} €</p>
+            <p><strong>Nome do Titular:</strong> {{ encomenda.user.first_name }} {{ encomenda.user.last_name }}</p>
+            <p><strong>Email:</strong> {{ encomenda.user.email }}</p>
+            <p><strong>Telefone:</strong> {{ encomenda.user.telefone }}</p>
+            <p><strong>Morada:</strong> {{ encomenda.morada }} </p> <!-- Ajuste conforme necessário -->
+
+            <h5 class="mt-4">Itens da Encomenda:</h5>
+            <ul class="list-group">
+                {% for item in itens %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <img src="{{ item.produto.foto.url }}" alt="{{ item.produto.nome }}" style="max-width: 50px; max-height: 50px;" class="me-2">
+                            <strong>{{ item.produto.nome }}</strong> ({{ item.quantidade }} x {{ item.produto.preco }} €)
+                        </div>
+                        <span class="fw-bold">{{ item.subtotal|floatformat:2 }} €</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'historico_encomendas' %}" class="btn btn-success mt-4">Voltar ao Histórico</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

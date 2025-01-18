@@ -1,15 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Pagamento{% endblock %}
+{% block title %}Compra Concluída{% endblock %}
 
 {% block content %}
-    <h1>Obrigado pela sua compra!</h1>
-    <p>O seu pagamento foi realizado com sucesso.</p>
-    <p>Detalhes da compra:</p>
-    <ul>
-        <li>Valor: {{ compra.valor }}</li>
-        <li>Nome do Titular: {{ compra.nome_titular }}</li>
-        <li>Data: {{ compra.validade }}</li>
-    </ul>
-    <a href="{% url 'home' %}">Voltar ao início</a>
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="text-success fw-bold">Obrigado pela sua compra!</h1>
+        <p class="text-muted fst-italic">O seu pagamento foi realizado com sucesso.</p>
+    </div>
+    <div class="card border-success shadow mx-auto mt-4" style="max-width: 500px;">
+        <div class="card-header bg-success text-white text-center">
+            <h5 class="card-title mb-0">Detalhes da Compra</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item text-center">
+                <span class="fw-bold">Valor:</span> {{ compra.valor }}
+            </li>
+            <li class="list-group-item text-center">
+                <span class="fw-bold">Nome do Titular:</span> {{ compra.nome_titular }}
+            </li>
+            <li class="list-group-item text-center">
+                <span class="fw-bold">Data:</span> {{ compra.data }}
+            </li>
+        </ul>
+        <div class="card-footer text-center">
+            <a href="{% url 'home' %}" class="btn btn-success btn-sm">Voltar ao Início</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

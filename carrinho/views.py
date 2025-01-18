@@ -22,15 +22,41 @@ def adicionar_ao_carrinho(request, produto_slug):
 
 @login_required
 def ver_carrinho(request):
-    carrinho = Carrinho.objects.get(user=request.user)
+    try:
+        # Tenta obter o carrinho do usuário
+        carrinho = Carrinho.objects.get(user=request.user)
+    except Carrinho.DoesNotExist:
+        # Cria um novo carrinho vazio se não existir
+        carrinho = Carrinho.objects.create(user=request.user)
+
+    # Obtém os itens do carrinho
     itens_carrinho = ItemCarrinho.objects.filter(carrinho=carrinho)
+
+    if not itens_carrinho.exists():
+        # Se o carrinho estiver vazio, exibe uma mensagem
+        messages.info(request, "Seu carrinho está vazio.")
+        return render(request, 'ver_carrinho.html', {
+            'carrinho': carrinho,
+            'itens_carrinho': [],
+            'carrinho_total': 0,
+            'total_itens': 0,
+        })
+
+    # Calcula os totais para um carrinho com itens
     carrinho_total = 0
     total_itens = 0
     for item in itens_carrinho:
         item.preco_total = item.produto.preco * item.quantidade
         carrinho_total += item.preco_total
         total_itens += item.quantidade
-    return render(request, 'ver_carrinho.html', {'itens_carrinho': itens_carrinho, 'carrinho_total': carrinho_total, 'total_itens': total_itens})
+
+    # Renderiza a página com os detalhes do carrinho
+    return render(request, 'ver_carrinho.html', {
+        'carrinho': carrinho,
+        'itens_carrinho': itens_carrinho,
+        'carrinho_total': carrinho_total,
+        'total_itens': total_itens,
+    })
 
 @login_required
 def remover_do_carrinho(request, produto_slug):

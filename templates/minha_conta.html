@@ -5,17 +5,33 @@ Minha Conta
 {% endblock title %}
 
 {% block content %}
-<div class="card m-5 p-3">
-    <h1>Detalhes da Conta</h1>
-    <p>Nome: {{ utilizador.first_name}} {{ utilizador.last_name}}</p>
-    <p>Username: {{ utilizador.username}}</p>
-    <p>Email: {{ utilizador.email }}</p>
-    <p>Telefone: {{ utilizador.telefone }}</p>
-
-    <a class="btn btn-secondary my-2 my-sm-0 mx-2" href="{% url 'editar_conta' %}">Atualizar</a>
-
-
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card shadow-lg border-success" style="max-width: 400px; width: 100%;">
+        <div class="card-header bg-success text-white text-center">
+            <h2 class="fw-bold mb-0">Detalhes da Conta</h2>
+        </div>
+        <div class="card-body">
+            <p class="mb-2">
+                <span class="fw-bold text-success">Nome:</span> {{ utilizador.first_name }} {{ utilizador.last_name }}
+            </p>
+            <p class="mb-2">
+                <span class="fw-bold text-success">Username:</span> {{ utilizador.username }}
+            </p>
+            <p class="mb-2">
+                <span class="fw-bold text-success">Email:</span> {{ utilizador.email }}
+            </p>
+            <p class="mb-2">
+                <span class="fw-bold text-success">Telefone:</span> {{ utilizador.telefone }}
+            </p>
+        </div>
+        <div class="card-footer text-center">
+            <a class="btn btn-outline-success mx-2" href="{% url 'editar_conta' %}">
+                Atualizar
+            </a>
+            <a class="btn btn-success mx-2" href="{% url 'historico_encomendas' %}">
+                Histórico de Encomendas
+            </a>
+        </div>
+    </div>
 </div>
-
-
 {% endblock content %}

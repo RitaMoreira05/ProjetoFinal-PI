@@ -1,61 +1,69 @@
-    {% extends 'base.html' %}
-    
-    {% block title %}Carrinho{% endblock %}
-    
-    {% block content %}
-        <h1 class="text-center my-4">Carrinho de Compras</h1>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <table class="table table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Produto</th>
-                                <th>Quantidade</th>
-                                <th>Preço Unitário</th>
-                                <th>Preço Total</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in itens_carrinho %}
-                            <tr>
-                                <td>
-                                    <img src="{{ item.produto.foto.url }}" alt="{{ item.produto.nome }}" class="img-thumbnail" style="width: 50px; height: 50px;">
-                                    {{ item.produto.nome }}
-                                </td>
-                                <td>
-                                    <form method="post" action="{% url 'atualizar_quantidade' item.produto.slug %}" class="d-inline">
-                                        {% csrf_token %}
-                                        <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" class="form-control d-inline" style="width: 60px;">
-                                </td>
-                                <td>{{ item.produto.preco }} €</td>
-                                <td>{{ item.preco_total }} €</td>
-                                <td>
-                                        <button type="submit" class="btn btn-sm btn-primary">Atualizar</button>
-                                    </form>
-                                    <form method="post" action="{% url 'remover_carrinho' item.produto.slug %}" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-danger">Remover</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Resumo do Carrinho</h5>
-                            <p class="card-text">Total de Itens: {{ total_itens }}</p>
-                            <p class="card-text">Valor Total: {{ carrinho_total }} €</p>
-                            <form method="get" action="{% url 'finalizar_compra' %}">
-                                <button type="submit" class="btn btn-success btn-block">Finalizar Compra</button>
-                            </form>
-                        </div>
+{% extends 'base.html' %}
+
+{% block title %}Carrinho{% endblock %}
+
+{% block content %}
+    <h1 class="text-center my-4">Carrinho de Compras</h1>
+    <div class="container">
+        {% if itens_carrinho %}
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço Unitário</th>
+                            <th>Preço Total</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in itens_carrinho %}
+                        <tr>
+                            <td>
+                                <img src="{{ item.produto.foto.url }}" alt="{{ item.produto.nome }}" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                {{ item.produto.nome }}
+                            </td>
+                            <td>
+                                <form method="post" action="{% url 'atualizar_quantidade' item.produto.slug %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" class="form-control d-inline" style="width: 60px;">
+                            </td>
+                            <td>{{ item.produto.preco }} €</td>
+                            <td>{{ item.preco_total }} €</td>
+                            <td>
+                                    <button type="submit" class="btn btn-sm btn-primary">Atualizar</button>
+                                </form>
+                                <form method="post" action="{% url 'remover_carrinho' item.produto.slug %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger">Remover</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Resumo do Carrinho</h5>
+                        <p class="card-text">Total de Itens: {{ total_itens }}</p>
+                        <p class="card-text">Valor Total: {{ carrinho_total }} €</p>
+                        <form method="get" action="{% url 'finalizar_compra' %}">
+                            <button type="submit" class="btn btn-success btn-block">Finalizar Compra</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    {% endblock %}
+        {% else %}
+        <div class="alert alert-success text-center">
+            <strong>Seu carrinho está vazio.</strong>
+            <p>Adicione produtos para continuar.</p>
+            <a href="{% url 'home' %}" class="btn btn-success mt-3">Voltar à Loja</a>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

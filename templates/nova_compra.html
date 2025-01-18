@@ -3,58 +3,82 @@
 {% block title %}Pagamento{% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Finalizar Compra</h1>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">Informações de Pagamento</h4>
-                    </div>
-                    <div class="card-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="nome">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="endereco">Morada</label>
-                                <input type="text" class="form-control" id="morada" name="morada" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cidade">Cidade</label>
-                                <input type="text" class="form-control" id="cidade" name="cidade" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="estado">Distrito</label>
-                                <input type="text" class="form-control" id="distrito" name="distrito" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cep">Código-Postal</label>
-                                <input type="text" class="form-control" id="cp" name="cp" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cartao">Número do Cartão</label>
-                                <input type="text" class="form-control" id="cartao" name="cartao" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="validade">Validade</label>
-                                <input type="text" class="form-control" id="validade" name="validade" placeholder="MM/AA" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cvv">CVV</label>
-                                <input type="text" class="form-control" id="cvv" name="cvv" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="total">Valor Total:</label>
-                                <input type="text" id="total" class="form-control" value="{{ carrinho_total }} €" readonly>
-                            </div>
-                            <button type="submit" class="btn btn-success btn-block">Finalizar Compra</button>
-                        </form>
-                    </div>
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-success">Finalizar Compra</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Informações de Pagamento</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'finalizar_compra' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="nome" class="text-success">Nome</label>
+                            <input type="text" class="form-control" id="nome" name="nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apelido" class="text-success">Apelido</label>
+                            <input type="text" class="form-control" id="apelido" name="apelido" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="morada" class="text-success">Morada</label>
+                            <input type="text" class="form-control" id="morada" name="morada" value="{{ user.morada }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cidade" class="text-success">Cidade</label>
+                            <input type="text" class="form-control" id="cidade" name="cidade" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="distrito" class="text-success">Distrito</label>
+                            <select class="form-control" id="distrito" name="distrito" required>
+                                <option value="" disabled selected>Selecione o distrito</option>
+                                <option value="Aveiro">Aveiro</option>
+                                <option value="Beja">Beja</option>
+                                <option value="Braga">Braga</option>
+                                <option value="Bragança">Bragança</option>
+                                <option value="Castelo Branco">Castelo Branco</option>
+                                <option value="Coimbra">Coimbra</option>
+                                <option value="Évora">Évora</option>
+                                <option value="Faro">Faro</option>
+                                <option value="Guarda">Guarda</option>
+                                <option value="Leiria">Leiria</option>
+                                <option value="Lisboa">Lisboa</option>
+                                <option value="Portalegre">Portalegre</option>
+                                <option value="Porto">Porto</option>
+                                <option value="Santarém">Santarém</option>
+                                <option value="Setúbal">Setúbal</option>
+                                <option value="Viana do Castelo">Viana do Castelo</option>
+                                <option value="Vila Real">Vila Real</option>
+                                <option value="Viseu">Viseu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cp" class="text-success">Código-Postal</label>
+                            <input type="text" class="form-control" id="cp" name="cp" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cartao" class="text-success">Número do Cartão</label>
+                            <input type="text" class="form-control" id="cartao" name="cartao" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="validade" class="text-success">Validade</label>
+                            <input type="text" class="form-control" id="validade" name="validade" placeholder="MM/AA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv" class="text-success">CVV</label>
+                            <input type="text" class="form-control" id="cvv" name="cvv" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="total" class="text-success">Valor Total:</label>
+                            <input type="text" id="total" class="form-control" value="{{ carrinho_total }} €" readonly>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Finalizar Compra</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
