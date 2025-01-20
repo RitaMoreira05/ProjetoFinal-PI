@@ -22,3 +22,24 @@ html, body {
 .position-absolute.small-text {
   transform: translate(-50%, 60%);
 }
+
+/* Estilo para os estados das encomendas */
+.estado-concluida {
+  background-color: #28a745; /* Verde */
+  color: #fff;
+}
+
+.estado-pendente {
+  background-color: #dc3545; /* Vermelho */
+  color: #fff;
+}
+
+.estado-processando {
+  background-color: #ffc107; /* Amarelo */
+  color: #212529;
+}
+
+.estado-outro {
+  background-color: #6c757d; /* Cinza */
+  color: #fff;
+}

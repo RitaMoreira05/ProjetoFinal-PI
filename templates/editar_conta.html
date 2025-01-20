@@ -5,16 +5,57 @@ Editar Conta
 {% endblock title %}
 
 {% block content %}
-<div class="card m-5 p-3">
-    <h1>Detalhes da Conta</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button  class="btn btn-secondary" type="submit"> Submeter Atualizações</button>
-    </form>
+<div class="container">
+    <div class="card shadow-lg border-success rounded-3" style="max-width: 500px; margin: 0 auto;">
+        <div class="card-header bg-success text-white text-center">
+            <h2 class="fw-bold mb-0">Editar Conta</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                <!-- Nome -->
+                <div class="mb-3">
+                    <label for="id_first_name" class="form-label text-success fw-bold">Nome</label>
+                    <input type="text" name="first_name" id="id_first_name" class="form-control form-control-sm" value="{{ form.first_name.value }}" required>
+                </div>
 
+                <!-- Apelido -->
+                <div class="mb-3">
+                    <label for="id_last_name" class="form-label text-success fw-bold">Apelido</label>
+                    <input type="text" name="last_name" id="id_last_name" class="form-control form-control-sm" value="{{ form.last_name.value }}" required>
+                </div>
 
+                <!-- Username -->
+                <div class="mb-3">
+                    <label for="id_username" class="form-label text-success fw-bold">Username</label>
+                    <input type="text" name="username" id="id_username" class="form-control form-control-sm" value="{{ form.username.value|default:user.username }}" required>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="id_email" class="form-label text-success fw-bold">Email</label>
+                    <input type="email" name="email" id="id_email" class="form-control form-control-sm" value="{{ form.email.value }}" required>
+                </div>
+
+                <!-- Telemóvel -->
+                <div class="mb-3">
+                    <label for="id_telefone" class="form-label text-success fw-bold">Telemóvel</label>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text" id="basic-addon1">+351</span>
+                        <input type="tel" name="telefone" id="id_telefone" class="form-control" value="{{ form.telefone.value }}" pattern="9[0-9]{8}" maxlength="9" required placeholder="9xxxxxxxx" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="form-text text-muted">Tem de ter 9 dígitos.</div>
+                </div>
+
+                <!-- Botão de submissão -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success w-100 btn-sm">
+                        Submeter Atualizações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-
-
 {% endblock content %}

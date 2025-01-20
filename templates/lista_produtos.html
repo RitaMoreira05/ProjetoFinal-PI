@@ -1,36 +1,39 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}Produtos{% endblock %}
 
 {% block content %}
-    <div class="container products-section">
-        <div class="row text-center">
-            <h2 class="conteiner-xxl mb-4">Produtos</h2>
+<div class="container">
+    <h2 class="text-center text-success mb-4">Produtos</h2>
+    
+    <div class="row">
+        {% if produtos %}
+            {% for produto in produtos %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ produto.foto.url }}" class="card-img-top" alt="{{ produto.nome }}" style="object-fit: contain; height: 200px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">{{ produto.nome }}</h5>
+                        <p class="card-text">{{ produto.preco }} €</p>
+                        <a href="{% url 'ver_produto' produto.slug %}" class="btn btn-outline-success btn-sm">Ver</a>
+                        
+                        <form method="post" action="{% url 'adicionar_carrinho' produto.slug %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="scroll_position" id="scroll_position">
+                            <button type="submit" class="btn btn-success btn-sm">Adicionar ao Carrinho</button>
+                        </form>
 
-    {% for produto in produtos %}
-        <div class="col-md-4 mb-4">
-        <div class="card p-3">
-        
-        <br>
-        <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" class="card-img-top" wslugth="5rem"/>
-        <!-- Exibir a foto do produto -->
-        <h5>{{ produto.nome }}</h5>
-        <p>Preço: {{ produto.preco }} €</p>
-        <div class="container">
-        <a href="{% url 'ver_produto' produto.slug %}?origem=produtos" class="btn btn-primary">Ver</a>
-
-        {% if user.is_staff %}
-        <a href="{% url 'editar_produto' produto.slug %}" class="btn btn-warning">Editar</a>
-        <a href="{% url 'apagar_produto' produto.slug %}" class="btn btn-danger">Apagar</a>
+                        {% if user.is_staff %}
+                        <a href="{% url 'editar_produto' produto.slug %}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'apagar_produto' produto.slug %}" class="btn btn-danger btn-sm">Apagar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">Nenhum produto encontrado.</p>
         {% endif %}
-        </div>
-        </div>
-        </div>
-
-    {% endfor %}
     </div>
-    </div>
-
-</body>
-
+</div>
 {% endblock %}

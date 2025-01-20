@@ -4,21 +4,58 @@ from django.contrib import messages
 from produtos.models import Produto
 from .models import Carrinho, ItemCarrinho
 
+# Função para obter o total de itens no carrinho
+def obter_total_itens(user):
+    try:
+        carrinho = Carrinho.objects.get(user=user)
+        return sum(item.quantidade for item in ItemCarrinho.objects.filter(carrinho=carrinho))
+    except Carrinho.DoesNotExist:
+        return 0
+
 @login_required
-def adicionar_ao_carrinho(request, produto_slug):
-    produto = get_object_or_404(Produto, slug=produto_slug)
-    carrinho, created = Carrinho.objects.get_or_create(user=request.user)
+def adicionar_carrinho(request, produto_slug):
+    try:
+        produto = Produto.objects.get(slug=produto_slug)
+        
+        # Verifica o estoque do produto
+        if produto.stock <= 0:
+            messages.error(request, f"O produto '{produto.nome}' não tem stock suficiente.")
+            return redirect('ver_produto', produto_slug=produto.slug)
 
-    item_carrinho, created = ItemCarrinho.objects.get_or_create(
-        carrinho=carrinho,
-        produto=produto,
-    )
-    if not created:
-        item_carrinho.quantidade += 1
-        item_carrinho.save()
+        # Recupera o carrinho do usuário (ou cria um novo)
+        carrinho, created = Carrinho.objects.get_or_create(user=request.user)
 
-    messages.success(request, f'{produto.nome} foi adicionado ao seu carrinho.')
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+        # Captura a quantidade informada no formulário (valor padrão 1)
+        quantidade = int(request.POST.get('quantidade', 1))
+        
+        if quantidade < 1:
+            messages.error(request, "A quantidade deve ser maior ou igual a 1.")
+            return redirect('ver_produto', produto_slug=produto.slug)
+        
+        # Verifica se o produto já está no carrinho
+        item_carrinho = ItemCarrinho.objects.filter(carrinho=carrinho, produto=produto).first()
+
+        if item_carrinho:
+            # Se o produto já estiver no carrinho, aumenta a quantidade com o valor informado
+            if item_carrinho.quantidade + quantidade <= produto.stock:  # Verifica se há estoque suficiente
+                item_carrinho.quantidade += quantidade
+                item_carrinho.save()
+                messages.success(request, f"A quantidade de '{produto.nome}' foi aumentada no carrinho.")
+            else:
+                messages.error(request, f"O produto '{produto.nome}' não pode ser adicionado. Stock insuficiente.")
+        else:
+            # Se o produto não estiver no carrinho, cria um novo item com a quantidade informada
+            if quantidade <= produto.stock:  # Verifica se há estoque suficiente para a quantidade
+                ItemCarrinho.objects.create(carrinho=carrinho, produto=produto, quantidade=quantidade)
+                messages.success(request, f"Produto '{produto.nome}' adicionado ao carrinho.")
+            else:
+                messages.error(request, f"O produto '{produto.nome}' não pode ser adicionado. Stock insuficiente.")
+        
+        return redirect('ver_carrinho')
+    
+    except Produto.DoesNotExist:
+        messages.error(request, "Produto não encontrado.")
+        return redirect('home')
 
 @login_required
 def ver_carrinho(request):

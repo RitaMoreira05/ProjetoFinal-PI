@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
 
-{% block title %}Confirmar Eliminação{% endblock %}
+{% block title %}Apagar {{ produto.nome }}{% endblock %}
 
 {% block content %}
-    <h1>Apagar Produto</h1>
-    <p>Tem a certeza de que quer apagar o produto "{{ produto.nome }}"?</p>
-
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="confirmar_apagar">Confirmar</button>
-        <a href="{% url 'lista_produtos' %}">Cancelar</a>
-    </form>
+<div class="container d-flex justify-content-center ">
+    <div class="card shadow-lg border-success" style="max-width: 400px; width: 100%;">
+        <div class="card-header bg-success text-white text-center">
+            <h2 class="fw-bold mb-0">Eliminar</h2>
+        </div>
+        <div class="card-body text-center">
+            <p class="mb-4">
+                Tem a certeza de que quer apagar o produto 
+                <span class="fw-bold text-success">"{{ produto.nome }}"</span>?
+            </p>
+        </div>
+        <div class="card-footer text-center">
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" name="confirmar_apagar" class="btn btn-success mx-2">
+                    Confirmar
+                </button>
+            </form>
+            <a href="{% url 'lista_produtos' %}" class="btn btn-outline-success mx-2">
+                Cancelar
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}
-

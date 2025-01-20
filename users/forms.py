@@ -87,4 +87,4 @@ class MinhaContaForm(forms.ModelForm):
             fields (tuple): A lista de campos a serem exibidos no formulário.
         """
         model = Utilizador
-        fields = ('first_name', 'last_name', 'email', 'telefone')
+        fields = ('first_name', 'last_name', 'username','email', 'telefone')

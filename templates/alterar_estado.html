@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2 class="text-center text-success">Encomenda #{{ encomenda.id }}</h2>
+  
+  <!-- Detalhes da Encomenda -->
+  <div class="container">
+    <div class="row">
+        <!-- Dados da Encomenda (lado esquerdo) -->
+        <div class="col-md-5">
+            <div class="card border-success shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Informações da Encomenda</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Nome do Titular:</strong> {{ encomenda.user.first_name }} {{ encomenda.user.last_name }}</p>
+                    <p><strong>Email:</strong> {{ encomenda.user.email }}</p>
+                    <p><strong>Telefone:</strong> {{ encomenda.user.telefone }}</p>
+                    <p><strong>Morada:</strong> {{ encomenda.morada }}</p>
+                    <p><strong>Código Postal:</strong> {{ encomenda.codigo_postal }}</p>
+                    <p><strong>Cidade:</strong> {{ encomenda.cidade }}</p>
+                    <p><strong>Data da Encomenda:</strong> {{ encomenda.data|date:"d/m/Y H:i:s" }}</p>
+                    <p><strong>Valor Total:</strong> <span>{{ encomenda.valor }} €</span></p>
+                    <p><strong>Estado Atual:</strong> {{ encomenda.get_estado_display }}</p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="estado"><strong>Estado da Encomenda</strong></label>
+                          <select name="estado" class="form-control" id="estado">
+                            <option value="pendente" {% if encomenda.estado == 'pendente' %}selected{% endif %}>Pendente</option>
+                            <option value="enviado" {% if encomenda.estado == 'enviado' %}selected{% endif %}>Enviado</option>
+                            <option value="entregue" {% if encomenda.estado == 'entregue' %}selected{% endif %}>Entregue</option>
+                            <option value="cancelado" {% if encomenda.estado == 'cancelado' %}selected{% endif %}>Cancelado</option>
+                          </select>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-2">Atualizar</button>
+                      </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela dos Itens da Encomenda (lado direito) -->
+        <div class="col-md-7">
+            <div class="card border-success shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Itens da Encomenda</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead class="table-success">
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Preço Unitário</th>
+                                <th>Preço Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in itens %}
+                            <tr>
+                                <td>
+                                    <img src="{{ item.produto.foto.url }}" alt="{{ item.produto.nome }}" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                    {{ item.produto.nome }}
+                                </td>
+                                <td>{{ item.quantidade }}</td>
+                                <td>{{ item.produto.preco }} €</td>
+                                <td class="fw-bold text-success">{{ item.total_produto|floatformat:2 }} €</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,21 +1,61 @@
 {% extends 'base.html' %}
 
-{% block title %}{{produto.nome}}{% endblock %}
+{% block title %}{{ produto.nome }}{% endblock %}
 
 {% block content %}
-    <h1>{{ produto.nome }}</h1>
-    <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" style="max-width: 200px;" />
-    <p><strong>Descrição:</strong></p>
-    <p>{{produto.descricao}}</p>
-    <p>Preço: {{produto.preco}} €</p>
-    <small>Categoria: {{ produto.categoria.nome }} | Validade: {{ produto.validade }} | Stock: {{produto.stock}}</small>
-    <br>
+<div class="container my-5">
+    <div class="row">
+        <!-- Imagem do Produto -->
+        <div class="col-md-5 text-center">
+            <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}" class="img-fluid rounded shadow-sm" style="max-height: 350px;">
+        </div>
 
-    {% if origem == 'categoria' and categoria_slug %}
-        <a href="{% url 'ver_categoria' categoria_slug %}">Voltar</a>
-    {% else %}
-        <a href="{% url 'lista_produtos' %}">Voltar</a>
-    {% endif %}
+        <!-- Informações do Produto -->
+        <div class="col-md-7">
+            <h1 class="text-success">{{ produto.nome }}</h1>
+            <h4 class="text-muted">{{ produto.categoria.nome }}</h4>
+            <p class="mt-3"><strong>Descrição:</strong></p>
+            <p class="text-muted">{{ produto.descricao }}</p>
+            <p class="mt-4">
+                <span class="h4 text-success">{{ produto.preco }} €</span>
+                {% if produto.stock > 0 %}
+                    <span class="badge bg-success ms-2">Em Stock</span>
+                {% else %}
+                    <span class="badge bg-danger ms-2">Indisponível</span>
+                {% endif %}
+            </p>
+            <p class="text-muted">Validade: {{ produto.validade }}</p>
+            <p class="text-muted">Stock disponível: {{ produto.stock }}</p>
 
+            <!-- Formulário de Adicionar ao Carrinho -->
+            {% if produto.stock > 0 %}
+                <form action="{% url 'adicionar_carrinho' produto.slug %}" method="post">
+                    {% csrf_token %}
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="quantidade" class="visually-hidden">Quantidade:</label>
+                        <input type="number" id="quantidade" name="quantidade" value="1" min="1" class="form-control w-auto" style="max-width: 80px; font-size: 1rem;" required>
+                        <button type="submit" class="btn btn-success btn-sm d-flex align-items-center gap-2">
+                            <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
+                        </button>
+                    </div>                                                                                                
+                </form>
+            {% else %}
+                <div class="mt-4">
+                    <button class="btn btn-secondary btn-sm" disabled>
+                        <i class="bi bi-cart-x"></i> Indisponível
+                    </button>
+                </div>
+            {% endif %}
 
+            <!-- Botão Voltar -->
+            <div class="mt-4">
+                {% if origem == 'categoria' and categoria_slug %}
+                    <a href="{% url 'ver_categoria' categoria_slug %}" class="btn btn-outline-success btn-sm">Voltar</a>
+                {% else %}
+                    <a href="{% url 'lista_produtos' %}" class="btn btn-outline-success btn-sm">Voltar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

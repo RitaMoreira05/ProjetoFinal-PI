@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2 class="text-center text-success mb-4">Gestão de Encomendas</h2>
+  
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover shadow-sm">
+      <thead class="bg-success text-white">
+        <tr>
+          <th>ID</th>
+          <th>Utilizador</th>
+          <th>Estado</th>
+          <th>Data</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for encomenda in encomendas %}
+          <tr>
+            <td>{{ encomenda.id }}</td>
+            <td>{{ encomenda.user.username }}</td>
+            <td>{{ encomenda.get_estado_display }}</span>
+            </td>
+            <td>{{ encomenda.data }}</td>
+            <td>
+              <a href="{% url 'alterar_estado' encomenda.id %}" class="btn btn-success btn-sm">Atualizar Estado</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

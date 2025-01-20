@@ -13,7 +13,8 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" href="/media/geral/pata-feliz-logo.png">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -38,7 +39,27 @@
           <li class="nav-item"><a class="nav-link active" href="{% url 'criar_categoria' %}">Criar Categoria</a></li>
           {% endif %}
 
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'ver_carrinho' %}"><i class="bi bi-cart"></i> Carrinho</a>
+          {% if user.is_staff %}
+          <li class="nav-item"><a class="nav-link active" href="{% url 'listar_encomendas' %}">Encomendas</a></li>
+          {% endif %}
+
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'agendar_consulta' %}">Consultas</a></li>
+
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'ver_carrinho' %}">
+              <i class="bi bi-cart position-relative">
+                {% if total_itens > 0 %}
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                    {{ total_itens }}
+                    <span class="visually-hidden">Itens no carrinho</span>
+                  </span>
+                {% endif %}
+              </i>
+              Carrinho
+            </a>
+          </li>
+          {% endif %}
 
           {% if user.is_authenticated %}
           <li class="nav-item"><a class="nav-link active" href="{% url 'minha_conta' %}"><i class="bi bi-person-circle"></i> Minha Conta</a></li>
@@ -62,15 +83,23 @@
         </ul>
       </div>
     </div>
-  </nav>
+  </nav> 
 
-  <!-- {% if messages %}
+  {% if messages %}
   <div>
     {% for message in messages %}
-    <p class="bg-success">{{ message }}</p>
+      {% if message.tags == 'danger' %}
+        <div class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>
+      {% else %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+      {% endif %}
     {% endfor %}
   </div>
-  {% endif %} -->
+{% endif %}
 
 
   <!-- Conteúdo Principal -->
@@ -84,6 +113,8 @@
   <footer class="bg-body-tertiary text-center py-2 mt-auto">
     <p>&copy; 2024 Pata Feliz. Todos os direitos reservados.</p>
   </footer>
+
 </body>
 
 </html>
+

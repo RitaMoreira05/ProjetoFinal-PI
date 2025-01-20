@@ -10,7 +10,7 @@ def home(request):
     return render(request, 'home.html', {'produtos': produtos_destaque})
 
 def lista_produtos(request):
-    produtos = Produto.objects.all()
+    produtos = Produto.objects.filter(stock__gt=0) 
     return render(request, 'lista_produtos.html', {'produtos': produtos})
 
 @staff_member_required
@@ -24,7 +24,8 @@ def criar_produto(request):
     else:
         form = ProdutosForm()
 
-    return render(request, 'criar_produto.html', {'form': form})
+    categorias = Categoria.objects.all()
+    return render(request, 'criar_produto.html', {"form": form, "categorias": categorias})
 
 def ver_produto(request, produto_slug):
     produto = get_object_or_404(Produto, slug=produto_slug)
@@ -40,7 +41,7 @@ def ver_produto(request, produto_slug):
 def editar_produto(request, produto_slug):
     produto = get_object_or_404(Produto, slug=produto_slug)
     if request.method == 'POST':
-        form = ProdutosForm(request.POST, instance=produto)
+        form = ProdutosForm(request.POST, request.FILES, instance=produto)
         if form.is_valid():
             form.save()
             messages.success(request, 'Produto atualizado com sucesso!')
@@ -48,18 +49,23 @@ def editar_produto(request, produto_slug):
     else:
         form = ProdutosForm(instance=produto)
 
-    return render(request, 'editar_produto.html', {'form': form, 'produto': produto})
+    categorias = Categoria.objects.all()
+    return render(request, 'editar_produto.html', {"form": form, "categorias": categorias, "produto": produto})
 
 @staff_member_required
 def apagar_produto(request, produto_slug):
     produto = get_object_or_404(Produto, slug=produto_slug)
+    
     if request.method == 'POST':
+        # Exclui o produto
         produto.delete()
-        messages.success(request, 'Produto eliminado com sucesso!')
-        return redirect('lista_produtos')
+        # Adiciona uma mensagem de sucesso
+        messages.success(request, f"Produto '{produto.nome}' foi eliminado com sucesso.")
+        # Redireciona para a lista de produtos ou outra página desejada
+        return redirect('lista_produtos')  # Substitua 'lista_produtos' pela página desejada
+    
+    # Exibe a página de confirmação
     return render(request, 'apagar_produto.html', {'produto': produto})
-
-
 
 #Categorias
 def lista_categorias(request):

@@ -3,13 +3,14 @@
 {% block title %}Carrinho{% endblock %}
 
 {% block content %}
-    <h1 class="text-center my-4">Carrinho de Compras</h1>
+    <h1 class="text-center my-4 text-success">Carrinho de Compras</h1>
     <div class="container">
         {% if itens_carrinho %}
         <div class="row">
+            <!-- Tabela de itens do carrinho -->
             <div class="col-md-8">
-                <table class="table table-hover">
-                    <thead class="table-dark">
+                <table class="table table-striped table-hover table-bordered shadow-sm">
+                    <thead class="table-success">
                         <tr>
                             <th>Produto</th>
                             <th>Quantidade</th>
@@ -31,7 +32,7 @@
                                     <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" class="form-control d-inline" style="width: 60px;">
                             </td>
                             <td>{{ item.produto.preco }} €</td>
-                            <td>{{ item.preco_total }} €</td>
+                            <td class="fw-bold text-success">{{ item.preco_total }} €</td>
                             <td>
                                     <button type="submit" class="btn btn-sm btn-primary">Atualizar</button>
                                 </form>
@@ -45,12 +46,16 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Resumo do carrinho -->
             <div class="col-md-4">
-                <div class="card">
+                <div class="card border-success shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">Resumo do Carrinho</h5>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title">Resumo do Carrinho</h5>
-                        <p class="card-text">Total de Itens: {{ total_itens }}</p>
-                        <p class="card-text">Valor Total: {{ carrinho_total }} €</p>
+                        <p class="card-text"><strong>Total de Itens:</strong> {{ total_itens }}</p>
+                        <p class="card-text"><strong>Valor Total:</strong> <span class="text-success">{{ carrinho_total }} €</span></p>
                         <form method="get" action="{% url 'finalizar_compra' %}">
                             <button type="submit" class="btn btn-success btn-block">Finalizar Compra</button>
                         </form>
@@ -59,8 +64,9 @@
             </div>
         </div>
         {% else %}
-        <div class="alert alert-success text-center">
-            <strong>Seu carrinho está vazio.</strong>
+        <!-- Mensagem para carrinho vazio -->
+        <div class="alert alert-success text-center shadow-sm w-50 mx-auto">
+            <strong>O carrinho está vazio.</strong>
             <p>Adicione produtos para continuar.</p>
             <a href="{% url 'home' %}" class="btn btn-success mt-3">Voltar à Loja</a>
         </div>

@@ -3,38 +3,65 @@
 {% block title %}Detalhes da Encomenda{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-success text-center">Detalhes da Encomenda</h1>
-    <div class="card border-success mt-4">
-        <div class="card-header bg-success text-white">
-            Encomenda #{{ encomenda.id }}
-        </div>
-        <div class="card-body">
-            <p><strong>Data da Encomenda:</strong> {{ encomenda.data|date:"d/m/Y H:i:s" }}</p>
-            <p><strong>Valor Total:</strong> {{ encomenda.valor }} €</p>
-            <p><strong>Nome do Titular:</strong> {{ encomenda.user.first_name }} {{ encomenda.user.last_name }}</p>
-            <p><strong>Email:</strong> {{ encomenda.user.email }}</p>
-            <p><strong>Telefone:</strong> {{ encomenda.user.telefone }}</p>
-            <p><strong>Morada:</strong> {{ encomenda.morada }} </p> <!-- Ajuste conforme necessário -->
-
-            <h5 class="mt-4">Itens da Encomenda:</h5>
-            <ul class="list-group">
-                {% for item in itens %}
-                <li class="list-group-item">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <img src="{{ item.produto.foto.url }}" alt="{{ item.produto.nome }}" style="max-width: 50px; max-height: 50px;" class="me-2">
-                            <strong>{{ item.produto.nome }}</strong> ({{ item.quantidade }} x {{ item.produto.preco }} €)
-                        </div>
-                        <span class="fw-bold">{{ item.subtotal|floatformat:2 }} €</span>
+    <h1 class="text-center my-4 text-success">Detalhes da Encomenda #{{ encomenda.id }}</h1>
+    <div class="container">
+        <div class="row">
+            <!-- Dados da Encomenda (lado esquerdo) -->
+            <div class="col-md-5">
+                <div class="card border-success shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Informações da Encomenda</h5>
                     </div>
-                </li>
-                {% endfor %}
-            </ul>
+                    <div class="card-body">
+                        <p><strong>Nome do Titular:</strong> {{ encomenda.user.first_name }} {{ encomenda.user.last_name }}</p>
+                        <p><strong>Email:</strong> {{ encomenda.user.email }}</p>
+                        <p><strong>Telefone:</strong> {{ encomenda.user.telefone }}</p>
+                        <p><strong>Morada:</strong> {{ encomenda.morada }}</p>
+                        <p><strong>Código Postal:</strong> {{ encomenda.codigo_postal }}</p>
+                        <p><strong>Cidade:</strong> {{ encomenda.cidade }}</p>
+                        <p><strong>Data da Encomenda:</strong> {{ encomenda.data|date:"d/m/Y H:i:s" }}</p>
+                        <p><strong>Valor Total:</strong> <span>{{ encomenda.valor }} €</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela dos Itens da Encomenda (lado direito) -->
+            <div class="col-md-7">
+                <div class="card border-success shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Itens da Encomenda</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Quantidade</th>
+                                    <th>Preço Unitário</th>
+                                    <th>Preço Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in itens %}
+                                <tr>
+                                    <td>
+                                        <img src="{{ item.produto.foto.url }}" alt="{{ item.produto.nome }}" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                        {{ item.produto.nome }}
+                                    </td>
+                                    <td>{{ item.quantidade }}</td>
+                                    <td>{{ item.produto.preco }} €</td>
+                                    <td class="fw-bold text-success">{{ item.total_produto|floatformat:2 }} €</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-footer text-center">
-            <a href="{% url 'historico_encomendas' %}" class="btn btn-success mt-4">Voltar ao Histórico</a>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'historico_encomendas' %}" class="btn btn-outline-success">Voltar ao Histórico</a>
         </div>
     </div>
-</div>
 {% endblock %}

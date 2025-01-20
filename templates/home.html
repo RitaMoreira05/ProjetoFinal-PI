@@ -18,40 +18,36 @@
 </div>
 {% endif %}
 
-<!-- filepath: /c:/Users/ritam/Desktop/ProjetoFinal-PI/ProjetoFinal-PI/templates/home.html -->
-<h3 class="p-3 text-center">Produtos em Destaque</h3>
+<h3 class="p-3 text-center text-success">Produtos em Destaque</h3>
 
-<div>
-    <!-- Conteúdo dos produtos em destaque -->
-    <div class="container">
-        <div class="row">
-            {% if produtos %}
-                {% for produto in produtos %}
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card mb-4">
-                        <img src="{{ produto.foto.url }}" class="card-img-top" alt="{{ produto.nome }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ produto.nome }}</h5>
-                            <p class="card-text">{{ produto.preco }} €</p>
-                            <a href="{% url 'ver_produto' produto.slug %}" class="btn btn-primary">Ver</a>
-                            <form method="post" action="{% url 'adicionar_carrinho' produto.slug %}" class="d-inline">
-                                {% csrf_token %}
-                                <input type="hidden" name="scroll_position" id="scroll_position">
-                                <button type="submit" class="btn btn-success">Adicionar ao Carrinho</button>
-                            </form>
+<div class="container">
+    <div class="row">
+        {% if produtos %}
+            {% for produto in produtos %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ produto.foto.url }}" class="card-img-top" alt="{{ produto.nome }}" style="object-fit: contain; height: 200px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">{{ produto.nome }}</h5>
+                        <p class="card-text">{{ produto.preco }} €</p>
+                        <a href="{% url 'ver_produto' produto.slug %}" class="btn btn-outline-success btn-sm">Ver</a>
+                        <form method="post" action="{% url 'adicionar_carrinho' produto.slug %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="scroll_position" id="scroll_position">
+                            <button type="submit" class="btn btn-success btn-sm">Adicionar ao Carrinho</button>
+                        </form>
 
-                            {% if user.is_staff %}
-                            <a href="{% url 'editar_produto' produto.slug %}" class="btn btn-warning">Editar</a>
-                            <a href="{% url 'apagar_produto' produto.slug %}" class="btn btn-danger">Apagar</a>
-                            {% endif %}
-                        </div>
+                        {% if user.is_staff %}
+                        <a href="{% url 'editar_produto' produto.slug %}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'apagar_produto' produto.slug %}" class="btn btn-danger btn-sm">Apagar</a>
+                        {% endif %}
                     </div>
                 </div>
-                {% endfor %}
-            {% else %}
-                <p>Nenhum produto em destaque encontrado.</p>
-            {% endif %}
-        </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhum produto em destaque encontrado.</p>
+        {% endif %}
     </div>
 </div>
 

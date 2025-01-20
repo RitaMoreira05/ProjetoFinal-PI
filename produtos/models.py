@@ -48,7 +48,7 @@ class Produto(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True) #blank = True, para que o campo não seja obrigatório
     descricao = models.TextField()
     preco = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
-    stock = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField(default=0)
     foto = models.ImageField(upload_to='media/produtos/')
     validade = models.DateField()
     categoria = models.ForeignKey(Categoria, related_name='produtos', on_delete=models.CASCADE)
@@ -80,4 +80,8 @@ class Produto(models.Model):
         """
         if not self.slug:
             self.slug = slugify(self.nome)
+        super().save(*args, **kwargs)
+
+        if self.stock < 0:
+            raise ValueError("O estoque não pode ser negativo.")
         super().save(*args, **kwargs)

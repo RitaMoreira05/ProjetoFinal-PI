@@ -1,12 +1,30 @@
 {% extends 'base.html' %}
 
-{% block title %}Criar Nova Categoria{% endblock %}
+{% block title %}Criar Nova Categoria{% endblock title %}
 
 {% block content %}
-    <h1>Criar Novo Categoria</h1>
-    <form method="post" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" é necessário para enviar ficheiros -->
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Adicionar</button>
-    </form>
-{% endblock %}
+<div class="container d-flex justify-content-center ">
+    <div class="card shadow-lg border-success" style="max-width: 500px; width: 100%;">
+        <div class="card-header bg-success text-white text-center">
+            <h2 class="fw-bold mb-0">Criar Nova Categoria</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Nome da Categoria -->
+                <div class="mb-3">
+                    <label for="id_nome" class="form-label fw-bold text-success">Nome da Categoria</label>
+                    <input type="text" name="nome" id="id_nome" class="form-control border-success" placeholder="Digite o nome da categoria" required>
+                </div>
+
+                <!-- Botão de Submissão -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success w-100">
+                        Adicionar Categoria
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

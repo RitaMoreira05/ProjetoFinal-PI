@@ -9,6 +9,7 @@ class ProdutosForm(forms.ModelForm):
         validade (DateField): A data de validade do produto, exibida com um widget de entrada de data.
     """
     validade = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    categoria = forms.ModelChoiceField(queryset=Categoria.objects.all(), empty_label="Selecione uma categoria")
 
     class Meta:
         """
